@@ -1,11 +1,15 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
+
+import { THEME } from './src/styles/theme';
+
+import * as Animate from './src/components';
 
 export default function App() {
   return (
     <View style={styles.container}>
-      <Text>Open up App.tsx to start working on your app!</Text>
-      <StatusBar style="auto" />
+      <Animate.TranslateXAnimation />
+      <StatusBar style='auto' />
     </View>
   );
 }
@@ -13,8 +17,7 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
+    backgroundColor: THEME.COLORS.GREY_800,
     justifyContent: 'center',
   },
 });
