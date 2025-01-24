@@ -8,7 +8,7 @@ import * as Animate from './src/components';
 export default function App() {
   return (
     <View style={styles.container}>
-      <Animate.TranslateXAnimation />
+      <Animate.IncreaseWidthAnimation />
       <StatusBar style='auto' />
     </View>
   );
