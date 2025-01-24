@@ -8,7 +8,7 @@ import * as Animate from './src/components';
 export default function App() {
   return (
     <View style={styles.container}>
-      <Animate.ShakeAnimation />
+      <Animate.Tabs tabs={['home', 'search', 'profile']} />
       <StatusBar style='auto' />
     </View>
   );
