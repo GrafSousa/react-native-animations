@@ -1,45 +1,49 @@
 import React from 'react';
-import { View, Pressable, Text, ScrollView } from 'react-native';
+import { View, Pressable, Text, TextInput } from 'react-native';
 
 import Animated, {
+  useAnimatedProps,
+  useAnimatedScrollHandler,
   useAnimatedStyle,
   useSharedValue,
   withTiming,
 } from 'react-native-reanimated';
 
-import { styles, TAB_WIDTH } from './styles';
+import { styles, TAB_WIDTH, DIVIDER_WIDTH } from './styles';
+
+const AnimatedTextInput = Animated.createAnimatedComponent(TextInput);
 
 interface TabsProps {
   tabs: string[];
 }
 
 export function Tabs({ tabs }: TabsProps) {
-  const borderTranslateX = useSharedValue(-TAB_WIDTH);
+  const offsetX = useSharedValue(0);
+  const middleTabPosition = (TAB_WIDTH - DIVIDER_WIDTH) / 2;
 
-  const handlePress = (tab: string) => {
-    const newOffset = (() => {
-      switch (tab) {
-        case 'home':
-          return -TAB_WIDTH;
-        case 'search':
-          return 0;
-        case 'profile':
-          return TAB_WIDTH;
-        default:
-          return -TAB_WIDTH;
-      }
-    })();
+  const borderTranslateX = useSharedValue(middleTabPosition);
 
-    borderTranslateX.value = withTiming(newOffset);
+  const handlePress = (index: number) => {
+    borderTranslateX.value = withTiming(TAB_WIDTH * index + middleTabPosition);
   };
 
+  const scrollHandler = useAnimatedScrollHandler((event) => {
+    offsetX.value = event.contentOffset.x;
+  });
+
   const animatedBorderStyle = useAnimatedStyle(() => ({
-    transform: [{ translateX: borderTranslateX.value }],
+    transform: [{ translateX: borderTranslateX.value - offsetX.value }],
   }));
 
   return (
     <View style={styles.container}>
-      <View style={styles.tabContainer}>
+      <AnimatedTextInput style={[styles.text, { marginBottom: 42 }]} />
+      <Animated.ScrollView
+        horizontal
+        showsHorizontalScrollIndicator={false}
+        contentContainerStyle={styles.tabContainer}
+        onScroll={scrollHandler}
+      >
         {tabs.map((value, index) => (
           <Pressable
             key={index}
@@ -48,12 +52,12 @@ export function Tabs({ tabs }: TabsProps) {
                 ? [styles.tab, styles.divider]
                 : styles.tab
             }
-            onPress={() => handlePress(value)}
+            onPress={() => handlePress(index)}
           >
             <Text style={styles.text}>{value}</Text>
           </Pressable>
         ))}
-      </View>
+      </Animated.ScrollView>
 
       <Animated.View style={[styles.animatedBorder, animatedBorderStyle]} />
     </View>

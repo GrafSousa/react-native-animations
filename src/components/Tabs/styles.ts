@@ -2,16 +2,14 @@ import { StyleSheet } from 'react-native';
 import { THEME } from '../../styles/theme';
 
 export const TAB_WIDTH = 150;
+export const DIVIDER_WIDTH = 64;
 
 export const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    alignItems: 'center',
     justifyContent: 'center',
-    height: '100%',
   },
   tabContainer: {
-    flexDirection: 'row',
+    marginBottom: 8,
   },
   tab: {
     paddingHorizontal: 20,
@@ -31,7 +29,7 @@ export const styles = StyleSheet.create({
   },
   animatedBorder: {
     height: 8,
-    width: 64,
+    width: DIVIDER_WIDTH,
 
     borderRadius: 20,
     backgroundColor: THEME.COLORS.PURPLE_100,
