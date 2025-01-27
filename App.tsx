@@ -8,7 +8,7 @@ import * as Animate from './src/components';
 export default function App() {
   return (
     <View style={styles.container}>
-      <Animate.Rotation />
+      <Animate.Wobble />
       <StatusBar style='auto' />
     </View>
   );
